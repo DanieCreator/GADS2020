@@ -1,0 +1,190 @@
+#GETTING STARTED WITH CLOUD SHELL & GCLOUD
+
+#To complete this lab, you need:
+
+#Access to a standard internet browser (Chrome browser recommended).
+#Time to complete the lab.
+#Note: If you already have your own personal Google Cloud account or project, do not use it for this lab.
+
+#1.Click the Start Lab button. If you need to pay for the lab, a pop-up opens for you to select your payment method. 
+On the left is a panel populated with the temporary credentials that you must use for this lab.
+
+#2.Copy the username, and then click Open Google Console.
+ The lab spins up resources, and then opens another tab that shows the Sign in page.If you see the Choose an account page, click Use Another Account.
+ 
+ #https://cdn.qwiklabs.com/eQ6xPnPn13GjiJP3RWlHWwiMjhooHxTNvzfg1AL2WPw%3D
+
+#3.Start Cloud Shell
+Open a Cloud Shell session by clicking on the icon in the top right corner of the Cloud Console:
+
+console_topbar_icon_cloudshell.png
+
+Then Click Continue:
+
+start_cloud_shell.png
+
+After Cloud Shell is activated you can use the command line to invoke the Cloud SDK gcloud command or other tools available on the virtual machine instance.
+ Later in the lab you will use your $HOME directory, which is used in persistent disk storage to store files across projects and between Cloud Shell sessions.
+ Your $HOME directory is private to you and cannot be accessed by other users.
+ 
+ #UNDERSTANDING REGIONS AND ZONES
+Certain Compute Engine resources live in regions or zones.
+ A region is a specific geographical location where you can run your resources.
+ Each region has one or more zones. For example, the us-central1 region denotes a region in the Central United States that has zones 
+ us-central1-a,
+ us-central1-b, 
+ us-central1-c, 
+ and us-central1-f.
+
+regions_and_zones.png
+
+Resources that live in a zone are referred to as zonal resources. Virtual machine Instances and persistent disks live in a zone.
+ To attach a persistent disk to a virtual machine instance, both resources must be in the same zone. Similarly, if you want to assign a static IP address to an instance,
+ the instance must be in the same region as the static IP.
+
+#Default regions and zones are set by using the following values:
+
+                      google-compute-default-zone google-compute-default-region
+
+#To see what your default region and zone settings are, run the following gcloud command, 
+replacing <your_project_id> which you can see on the Home page in the Console or look in the Qwiklabs tab where you started this lab, 
+with your Project ID:	
+
+                      gcloud compute project-info describe --project <your_project_ID>
+
+#INITIALIZING CLOUD SDK
+
+The gcloud CLI is a part of the Cloud SDK. You need to download and install the SDK on your own system and initialize it 
+(by running 'gcloud init') before you can use the 'gcloud' command-line tool.
+
+The gcloud CLI is automatically available in Cloud Shell. Since you're using Cloud Shell for this lab,
+ you don't need to install gcloud manually	
+ 
+#Setting environment variables
+Environment variables are variables that define your environment. 
+Define your own variables and save yourself time when writing scripts that contain APIs or executables.
+
+#Make a couple of environment variables:
+
+       export PROJECT_ID=<your_project_ID>
+
+#Set your ZONE environment variable (use the value for zone from the earlier command):
+
+       export ZONE=<your_zone>	   
+	   
+#Verify that your variables were set properly:
+            
+			echo $PROJECT_ID
+            echo $ZONE
+			
+			
+#CREATE A VIRTUAL MACHINE WITH GCLOUD
+
+#Create a virtual machine with gcloud
+Create a new virtual machine instance using gcloud. In the following command you'll use:
+
+gcloud compute which enables you to easily manage your Compute Engine resources in a friendlier format than using the Compute Engine API.
+instances create creates a new instance.
+
+#Run the following to create your vm:
+
+               gcloud compute instances create gcelab2 --machine-type n1-standard-2 --zone $ZONE
+
+The name of the vm is "gcelab2",
+You're using the --machine-type flag to specify the machine type as "n1-standard-2"
+You're using the --zone flag to specify that it gets created in the zone you defined with your environment variable.
+
+
+#USING GCLOUD COMMANDS
+
+#Run the following command in Cloud Shell to obtain help:
+    
+	 gcloud -h
+	 gcloud config --help
+	 gcloud help config
+	 
+Use the Enter key or the Spacebar to scroll through the help content
+Type q to exit the content
+
+#gcloud Global Flags govern the behavior of commands on a per-invocation level. Flags override any values set in SDK properties.
+
+#View the list of configurations in your environment:
+
+     gcloud config list
+
+#To check how other properties are set, see all properties by calling:
+
+     gcloud config list --all
+
+#List your components:
+
+     gcloud components list
+
+
+#AUTO-COMPLETION
+gcloud interactive has auto prompting for commands and flags, and displays inline help snippets in the lower section as the command is typed.
+
+Static information, like command and sub-command names, and flag names and enumerated flag values, are auto-completed using dropdown menus.	 
+
+#Install the beta components:
+
+      sudo apt-get install google-cloud-sdk
+
+#Enter the gcloud interactive mode:
+
+      gcloud beta interactive
+
+*****When using the interactive mode, click on the Tab key to complete file path and resource arguments. 
+If a dropdown menu appears,use the Tab key to move through the list, and the Space bar to select your choice.******
+
+#Try it out! Start typing the following command, using auto-complete to finish the command:
+       gcloud compute instances describe <your_vm>
+
+
+#SSH INTO YOUR VM INSTANCE
+gcloud compute makes connecting to your instances easy. The gcloud compute ssh command provides a wrapper around SSH,
+ which takes care of authentication and the mapping of instance name to IP address.	 
+
+#Use gcloud compute ssh to SSH into your vm:
+
+     gcloud compute ssh gcelab2 --zone $ZONE
+	 
+Type "Y" to continue:
+     Do you want to continue? (Y/n)
+
+Press the Enter key through the passphrase section to leave the passphrase empty.
+
+     Generating public/private rsa key pair.
+     Enter passphrase (empty for no passphrase) 
+	 
+#You don't need to do anything here, so disconnect from SSH by exiting from the remote shell by typing "exit":
+      exit
+
+
+#USE THE HOME DIRECTORY
+Now try out your Home directory. The contents of your Cloud Shell Home directory persists across projects between all Cloud Shell sessions,
+ even after the virtual machine terminates and is restarted.
+
+#Change your current working directory:
+    cd $HOME
+
+#Open your .bashrc configuration file using vi text editor:
+    vi ./.bashrc
+
+#	
+
+	 
+	 
+
+	  
+	 
+
+	 
+	 
+			   
+			
+	   
+
+	   
+ 
+					  
